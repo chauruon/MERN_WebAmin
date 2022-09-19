@@ -1,4 +1,5 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect} from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import {
     Typography,
     Container,
@@ -11,16 +12,16 @@ import {
     MenuItem,
     Link,
     Divider,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
     Icon,
 } from '@mui/material' 
 import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import SettingsIcon from '@mui/icons-material/Settings';
-import Person3Icon from '@mui/icons-material/Person3';
-import Diversity3Icon from '@mui/icons-material/Diversity3';
-import avatar from "./images/Avatar/avartar.jpg"
-import ContactMailIcon from '@mui/icons-material/ContactMail';
+import avartar from "../images/Avatar/avartar.jpg"
 
+import {user, settings,support,audience} from "../images/Icon"
+import { minWidth } from '@mui/system';
 
 export const MenuHeader = [
     {
@@ -49,29 +50,29 @@ export const MenuDrawer = [
         id:0,
         name:"Setting",
         link:"/Setting",
-        icon:SettingsIcon,
+        icon:settings,
     },
     {
         id:1,
         name:"Profile",
         link:"/Profile",
-        icon:Person3Icon,
+        icon:user,
     },
     {
         id:2,
         name:"About Us",
         link:"/About",
-        icon:Diversity3Icon,
+        icon:audience,
     },
     {
         id:3,
         name:"Contact Us",
         link:"/Contact",
-        icon:ContactMailIcon,
+        icon:support,
     },
 ]
 
-const App1 = () => {
+const Home = () => {
     const [open,setOpen] = useState(false);
     const toggleDrawer = () => {
         setOpen(!open);
@@ -85,18 +86,24 @@ const App1 = () => {
                 justifyContent:"space-between"
             }}
         >
-            <IconButton
-                edge="end"
-                color="default"
-                aria-label="open drawer"
-                    onClick={toggleDrawer}
-                sx={{
-                    marginLeft: '36px',
-                    ...(open && { display: 'none' }),
-                }}
+            <Grid sx={{
+                flex:1,
+                display: 'flex',
+                alignItems:"center",
+            }}>
+                <IconButton
+                    edge="end"
+                    color="default"
+                    aria-label="open drawer"
+                        onClick={toggleDrawer}
+                    sx={{
+                        marginLeft: '36px',
+                        ...(open && { display: 'none' }),
+                    }}
                 >
                     <MenuIcon />
-            </IconButton>
+                </IconButton>
+            </Grid>
             <Grid
                 sx={{
                     position: 'relative',
@@ -104,7 +111,7 @@ const App1 = () => {
                     justifyContent:"center",
                     alignItems:"center",
                     // bgcolor:"#7bdcb5",
-                    marginRight:5,
+                    marginRight:4,
                     ...(open && {
                         display: 'flex',
                         position: 'relative',
@@ -118,21 +125,22 @@ const App1 = () => {
                         display:'flex',
                         flexDirection:"row",
                         alignItems: 'center',
-                        marginRight:5,
+                        marginRight:1,
                     }}
                 >
                     {MenuHeader.map((val,idx)=>{
                         return (
                             <Link 
-                            sx={{
+                                sx={{
                                     height:30,
-                                    marginRight:5,
+                                    marginRight:3,
                                     color:"#fcb900",
                                     borderRadius:2,
                                     "&:hover":{
                                         color:"#ff6900"
                                     }
                                 }}
+                                key={idx}
                                 href={`${val.link}`}
                                 component={"a"}
                                 underline="none">
@@ -143,12 +151,10 @@ const App1 = () => {
                 </MenuList>
                 <Link component={"button"} href={`/`}>
                     <Avatar
-                        alt="Remy Sharp"
-                        src={avatar}
+                        src={avartar}
                         sx={{
-                            bgcolor:"#fef3bd",
-                            width: 56,
-                            height: 56,
+                            width: 40,
+                            height: 40,
                         }}
                     />
                 </Link>
@@ -168,7 +174,7 @@ const App1 = () => {
                         {MenuDrawer.map((val,idx)=>{
                             return(
                                 <>
-                                    <Link component={"button"} href={`/`}
+                                    <Link component={"a"} href={`${val.link}`}
                                         sx={{
                                             display:'flex',
                                             flexDirection:"row",
@@ -176,25 +182,36 @@ const App1 = () => {
                                         }}
                                         underline="none"
                                     >
-                                         <Avatar
-                                            alt="Remy Sharp"
-                                            src={val.icon}
-                                            // sx={{
-                                            //     bgcolor:"#fef3bd",
-                                            //     width: 56,
-                                            //     height: 56,
-                                            // }}
-                                        />
+                                        <img style={{
+                                            height:20,
+                                            width:20,
+                                            marginRight:10,
+                                        }} src={`${val.icon}`} alt={`${idx}`} />
                                         <Typography component="h1" 
                                             sx={{
                                                 width:"100%",
                                                 py:2,
+                                                color:"#000"
                                             }}
                                         >
                                             {val.name}
                                         </Typography>
                                     </Link>
-                                    <Divider sx={{ my: 1 }} />
+                                    
+                                    {/* <ListItem key={idx} component={"a"} to={val.link}>
+                                        <ListItemIcon sx={{
+                                            // bgcolor:"red",
+                                            minWidth:30,
+                                        }}>
+                                            <img style={{
+                                                height:20,
+                                                width:20,
+                                                // marginRight:2,
+                                            }} src={`${val.icon}`} alt={`${idx}`} />
+                                        </ListItemIcon>
+                                        <ListItemText primary={val.name} />
+                                    </ListItem> */}
+                                    <Divider /> 
                                 </>
                             );
                         })}
@@ -205,4 +222,4 @@ const App1 = () => {
     )
 }
 
-export default App1
+export default Home
